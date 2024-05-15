@@ -1,32 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 
-// Ref-Variablen für die Todos, den Namen des Benutzers, den Eingabetext und die Eingabekategorie
-const todos = ref<any[]>([]) // Ref-Variable für die Liste von Todos
-const name = ref<string>('') // Ref-Variable für den Namen des Benutzers
+/**
+ * Ref-Variablen für die Todos, den Namen des Benutzers, den Eingabetext und die Eingabekategorie
+ */
+const todos = ref<any[]>([])
+const name = ref<string>('')
+const input_content = ref<string>('')
+const input_category = ref<string | null>(null)
 
-// Eingabefelder für Todo-Text und Kategorie
-const input_content = ref<string>('') // Ref-Variable für den Text des Todo-Eintrags
-const input_category = ref<string | null>(null) // Ref-Variable für die ausgewählte Kategorie des Todo-Eintrags
-
-// Berechnete Variable für die sortierten Todos
+/**
+ * Berechnete Variable für die sortierten Todos
+ */
 const todos_asc = computed(() => todos.value.sort((a, b) => {
     return a.createdAt - b.createdAt // Sortierung nach Erstellungszeitpunkt
 }))
 
-// Beobachtung der Änderungen am Benutzernamen und Speicherung im Local Storage
+/**
+ * Beobachtung der Änderungen am Benutzernamen und Speicherung im Local Storage
+ */
 watch(name, (newVal: string) => {
     localStorage.setItem('name', newVal) // Speichern des Namens im Local Storage
 })
 
-// Beobachtung der Änderungen an den Todos und Speicherung im Local Storage
+/**
+ * Beobachtung der Änderungen an den Todos und Speicherung im Local Storage
+ */
 watch(todos, (newVal: any[]) => {
     localStorage.setItem('todos', JSON.stringify(newVal)) // Speichern der Todos im Local Storage
 }, {
     deep: true // Tiefenüberwachung für Verschachtelung in Objekten
 })
 
-// Funktion zum Hinzufügen eines neuen Todo-Eintrags
+/**
+ * Funktion zum Hinzufügen eines neuen Todo-Eintrags
+ */
 const addTodo = () => {
     if (input_content.value.trim() === '' || input_category.value === null) {
         return // Abbrechen, wenn der Eingabetext leer ist oder keine Kategorie ausgewählt wurde
@@ -42,12 +50,17 @@ const addTodo = () => {
     })
 }
 
-// Funktion zum Entfernen eines Todo-Eintrags
+/**
+ * Funktion zum Entfernen eines Todo-Eintrags
+ * @param todo Der Todo-Eintrag, der entfernt werden soll
+ */
 const removeTodo = (todo: any) => {
     todos.value = todos.value.filter((t) => t !== todo) // Filtern des Todo-Eintrags aus der Liste
 }
 
-// Hook, der beim Laden der Komponente ausgeführt wird, um den Benutzernamen und die Todos aus dem Local Storage zu laden
+/**
+ * Hook, der beim Laden der Komponente ausgeführt wird, um den Benutzernamen und die Todos aus dem Local Storage zu laden
+ */
 onMounted(() => {
     name.value = localStorage.getItem('name') || '' // Laden des Namens aus dem Local Storage oder leeres String, wenn nicht vorhanden
     todos.value = JSON.parse(localStorage.getItem('todos')) || [] // Laden der Todos aus dem Local Storage oder leeres Array, wenn nicht vorhanden
