@@ -12,9 +12,9 @@ const input_category = ref<string | null>(null)
 /**
  * Berechnete Variable für die sortierten Todos
  */
-const todos_asc = computed(() => todos.value.sort((a, b) => {
-    return a.createdAt - b.createdAt // Sortierung nach Erstellungszeitpunkt
-}))
+const todos_asc = computed(() => {
+  return [...todos.value].sort((a, b) => a.createdAt - b.createdAt) // Erstelle eine sortierte Kopie
+})
 
 /**
  * Beobachtung der Änderungen am Benutzernamen und Speicherung im Local Storage
@@ -62,8 +62,9 @@ const removeTodo = (todo: any) => {
  * Hook, der beim Laden der Komponente ausgeführt wird, um den Benutzernamen und die Todos aus dem Local Storage zu laden
  */
 onMounted(() => {
-    name.value = localStorage.getItem('name') || '' // Laden des Namens aus dem Local Storage oder leeres String, wenn nicht vorhanden
-    todos.value = JSON.parse(localStorage.getItem('todos')) || [] // Laden der Todos aus dem Local Storage oder leeres Array, wenn nicht vorhanden
+  name.value = localStorage.getItem('name') || '' // Laden des Namens aus dem Local Storage oder leeres String, wenn nicht vorhanden
+  const todosFromStorage = localStorage.getItem('todos')
+  todos.value = todosFromStorage ? JSON.parse(todosFromStorage) : [] // Laden der Todos aus dem Local Storage oder leeres Array, wenn nicht vorhanden
 })
 </script>
 
@@ -133,7 +134,7 @@ onMounted(() => {
         <div class="list" id="todo-list">
 
             <!-- Iteration über die sortierten Todos und Anzeige in der Liste -->
-            <div v-for="todo in todos_asc" :class="`todo-item ${todo.done && 'done'}`">
+          <div v-for="todo in todos_asc" :key="todo.createdAt" :class="`todo-item ${todo.done && 'done'}`">
                 <label>
                     <!-- Checkbox für die Erledigung des Todo-Eintrags -->
                     <input type="checkbox" v-model="todo.done" />
