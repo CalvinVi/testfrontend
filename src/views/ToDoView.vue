@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
+import { fetchTodos, addTodo, deleteTodo } from '@/api'; // Passe den Pfad entsprechend an
 
 /**
  * Ref-Variablen für die Todos, den Namen des Benutzers, den Eingabetext und die Eingabekategorie

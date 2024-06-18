@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080'; // Backend-URL
+const API_URL = 'http://localhost:8080';
 
 export const fetchTodos = async () => {
     try {
@@ -18,6 +18,15 @@ export const addTodo = async (todo) => {
         return response.data;
     } catch (error) {
         console.error('Error adding todo:', error);
+        throw error;
+    }
+};
+
+export const deleteTodo = async (id) => {
+    try {
+        await axios.delete(`${API_URL}/todos/${id}`);
+    } catch (error) {
+        console.error('Error deleting todo:', error);
         throw error;
     }
 };
