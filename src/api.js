@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://todobackend-6eap.onrender.com';
 
 export const fetchTodos = async () => {
     try {
