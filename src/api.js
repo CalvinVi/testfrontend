@@ -1,4 +1,4 @@
-const API_URL = 'https://todobackend-6eap.onrender.com';
+const API_URL = 'https://todobackend-6eap.onrender.com/api';
 
 export const fetchTodos = async () => {
     try {
