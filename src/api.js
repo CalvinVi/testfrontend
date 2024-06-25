@@ -1,4 +1,4 @@
-const API_URL = 'https://todobackend-6eap.onrender.com/api';
+const API_URL = 'https://test-skav.onrender.com';
 
 export const fetchTodos = async () => {
     try {
