@@ -27,17 +27,16 @@ const addTodoItem = async () => {
     }
 
   const newTodo = {
-    title: input_content.value,
-    description: input_category.value,
-    completed: false,
+    content: input_content.value,
+    category: input_category.value,
+    done: false,
+    editable: false,
+    createdAt: new Date().getTime()
   };
 
   try {
     const addedTodo = await addTodo(newTodo);
-    console.log('Added Todo:', addedTodo); // Debugging-Ausgabe
     todos.value.push(addedTodo);
-    input_content.value = ''; // Reset the input field after adding
-    input_category.value = null; // Reset the category after adding
   } catch (error) {
     console.error('Error adding todo:', error);
   }
