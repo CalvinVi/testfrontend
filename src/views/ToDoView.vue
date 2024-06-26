@@ -26,20 +26,21 @@ const addTodoItem = async () => {
         return;
     }
 
-    const newTodo = {
-        content: input_content.value,
-        category: input_category.value,
-        done: false,
-        editable: false,
-        createdAt: new Date().getTime()
-    };
+  const newTodo = {
+    title: input_content.value,
+    description: input_category.value,
+    completed: false,
+  };
 
-    try {
-        const addedTodo = await addTodo(newTodo);
-        todos.value.push(addedTodo);
-    } catch (error) {
-        console.error('Error adding todo:', error);
-    }
+  try {
+    const addedTodo = await addTodo(newTodo);
+    console.log('Added Todo:', addedTodo); // Debugging-Ausgabe
+    todos.value.push(addedTodo);
+    input_content.value = ''; // Reset the input field after adding
+    input_category.value = null; // Reset the category after adding
+  } catch (error) {
+    console.error('Error adding todo:', error);
+  }
 };
 
 const removeTodo = async (todo: any) => {
